@@ -84,11 +84,24 @@ Claude Codeに `REQUREMENTS_DEFINITION_AGENT.md` を読ませ、以下のよう�
 → ...
 ```
 
-*（スクリーンショット候補：ヒアリング会話の様子）*
-
 全ての質問に答えると、AIがMermaid図入りの要件定義書を自動生成します。
 
-*（スクリーンショット候補：生成された要件定義書）*
+#### 業務フロー(例)
+
+```mermaid
+flowchart TD
+    A[ブラウザにアクセス] --> B[ログイン]
+    B --> C{役割}
+    C -->|一般社員| D[貸出可能な備品一覧を確認]
+    C -->|管理担当者| E[管理メニュー]
+    E --> F[貸出操作：備品と借りる社員を選択]
+    E --> G[返却操作：貸出中の備品を選択]
+    E --> H[備品の登録・編集・削除]
+    E --> I[アカウントの作成・削除]
+    E --> J[貸出履歴の確認]
+    F --> K[貸出記録が登録される]
+    G --> L[返却記録が登録される]
+```
 
 ### ステップ2：要件定義書 → 設計書
 
@@ -101,7 +114,15 @@ AIはシステム構成（言語・フレームワーク・DB設計・クラス�
 
 で設計されます。
 
-*（スクリーンショット候補：生成された設計書の一部）*
+#### システム構成図(例)
+
+```mermaid
+graph TD
+    Browser[ブラウザ] -->|HTTP| Nginx[nginx :80]
+    Nginx -->|静的ファイル配信| Vue[Vue.js SPA]
+    Nginx -->|リバースプロキシ /api/| FastAPI[FastAPI :8000]
+    FastAPI -->|SQL| PostgreSQL[(PostgreSQL :5432)]
+```
 
 ### ステップ3：設計書 → コード
 
@@ -113,9 +134,11 @@ AIはシステム構成（言語・フレームワーク・DB設計・クラス�
 
 Claude Codeが要件定義書・設計書に従って完全なコードを生成します。
 
-*（スクリーンショット候補：完成した備品管理アプリの画面）*
+![画面イメージ](image-2.png)
 
 **結果**: 要件定義書の作成開始から動くアプリの完成まで **約58分**。
+
+[生成したプログラムのあるブランチ](https://github.com/notfolder/roo_code_test/tree/feature-dev-claude-asset-management)
 
 ## 実践例2：CSVデータ分布比較アプリ（所要時間：約41分）
 
@@ -129,7 +152,21 @@ Claude Codeが要件定義書・設計書に従って完全なコードを生成
 
 **結果**: 開始から動くアプリの完成まで **約41分**。
 
-*（スクリーンショット候補：CSV比較アプリのグラフ表示）*
+### 業務フロー(例)
+
+```mermaid
+flowchart TD
+    A[CSVファイルを用意する] --> B[アプリを起動する]
+    B --> C[CSVファイルを読み込む]
+    C --> D[比較する2カラムを選択する]
+    D --> E[グラフを表示する]
+    E --> F{分布の差異を確認する}
+    F --> G[改善効果を判断する]
+```
+
+![画面イメージ](image-3.png)
+
+[生成したプログラムのあるブランチ](https://github.com/notfolder/roo_code_test/tree/feature-dev-sigmaplot)
 
 ### 要件定義書があると「サボり」が激減する
 
@@ -156,5 +193,5 @@ https://github.com/notfolder/roo_code_test
 
 この記事に登場した2つのアプリはすべてClaude Codeとの実際のセッションで開発されました。
 
-- [備品管理・貸出管理アプリの開発セッション]（※URLをここに記入）
-- [CSVデータ分布比較アプリの開発セッション]（※URLをここに記入）
+- [備品管理・貸出管理アプリの開発セッション](https://github.com/notfolder/roo_code_test/blob/main/claude_session_%E5%82%99%E5%93%81%E7%AE%A1%E7%90%86%E8%B2%B8%E5%87%BA%E7%AE%A1%E7%90%86%E3%82%A2%E3%83%97%E3%83%AA.md)
+- [CSVデータ分布比較アプリの開発セッション](https://github.com/notfolder/roo_code_test/blob/main/claude_session_CSV%E3%83%87%E3%83%BC%E3%82%BF%E3%81%AE%E5%88%86%E5%B8%83%E6%AF%94%E8%BC%83%E3%82%A2%E3%83%97%E3%83%AA.md)
